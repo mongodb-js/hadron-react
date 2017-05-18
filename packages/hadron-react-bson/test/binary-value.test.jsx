@@ -47,6 +47,20 @@ describe('<BinaryValue />', () => {
     });
   });
 
+  context('when the type is a GUID', () => {
+    const buffer = Buffer.from('WBAc3FDBDU+Zh/cBQFPc3Q==', 'base64');
+    const binary = new Binary(buffer, 4);
+    const component = shallow(<BinaryValue type="Binary" value={binary} />);
+
+    it('title is base64 encoded', () => {
+      expect(component.props().title).to.equal('Binary(\'WBAc3FDBDU+Zh/cBQFPc3Q==\')');
+    });
+
+    it('value is base64 encoded', () => {
+      expect(component.text()).to.equal('Binary(\'WBAc3FDBDU+Zh/cBQFPc3Q==\')');
+    });
+  });
+
   context('when the type is not a uuid', () => {
     const binary = new Binary('testing', 2);
     const component = shallow(<BinaryValue type="Binary" value={binary} />);

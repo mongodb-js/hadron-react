@@ -4,6 +4,8 @@ const { shallow } = require('enzyme');
 const { Binary } = require('bson');
 const { BinaryValue } = require('../');
 
+const TESTING_BASE64 = Buffer.from('testing').toString('base64');
+
 describe('<BinaryValue />', () => {
   context('when the type is an old uuid', () => {
     const binary = new Binary('testing', 3);
@@ -18,11 +20,11 @@ describe('<BinaryValue />', () => {
     });
 
     it('sets the title', () => {
-      expect(component.props().title).to.equal('Binary(\'testing\')');
+      expect(component.props().title).to.equal(`Binary('${TESTING_BASE64}')`);
     });
 
     it('sets the value', () => {
-      expect(component.text()).to.equal('Binary(\'testing\')');
+      expect(component.text()).to.equal(`Binary('${TESTING_BASE64}')`);
     });
   });
 
@@ -39,11 +41,11 @@ describe('<BinaryValue />', () => {
     });
 
     it('sets the title', () => {
-      expect(component.props().title).to.equal('Binary(\'testing\')');
+      expect(component.props().title).to.equal(`Binary('${TESTING_BASE64}')`);
     });
 
     it('sets the value', () => {
-      expect(component.text()).to.equal('Binary(\'testing\')');
+      expect(component.text()).to.equal(`Binary('${TESTING_BASE64}')`);
     });
   });
 

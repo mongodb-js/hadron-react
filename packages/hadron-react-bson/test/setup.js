@@ -2,13 +2,13 @@
 /* eslint-env node */
 require('babel-register')();
 
-var jsdom = require('jsdom').JSDOM;
+var jsdom = require('jsdom').jsdom;
 
 var exposedProperties = ['window', 'navigator', 'document'];
 
-global.window = new jsdom('<!doctype html><html><body></body></html>');
-global.document = window.document;
-Object.keys(window).forEach((property) => {
+global.document = jsdom('<!doctype html><html><body></body></html>');
+global.window = document.defaultView;
+Object.keys(document.defaultView).forEach((property) => {
   if (typeof global[property] === 'undefined') {
     exposedProperties.push(property);
     global[property] = document.defaultView[property];

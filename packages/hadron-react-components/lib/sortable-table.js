@@ -31,6 +31,28 @@ const DESC = 'desc';
 class SortableTable extends React.Component {
 
   /**
+   * Fires when the user's mouse cursor hovers over a <tr>.
+   *
+   * @param {Number} index - The row's index in the table.
+   * @param {SyntheticEvent} event
+   * @see https://reactjs.org/docs/events.html#mouse-events
+   */
+  onBodyRowMouseEnter(index, event) {
+    this.props.onBodyRowMouseEnter(index, event);
+  }
+
+  /**
+   * Fires when the user's mouse cursor stops hovering over a <tr>.
+   *
+   * @param {Number} index - The row's index in the table.
+   * @param {SyntheticEvent} event
+   * @see https://reactjs.org/docs/events.html#mouse-events
+   */
+  onBodyRowMouseLeave(index, event) {
+    this.props.onBodyRowMouseLeave(index, event);
+  }
+
+  /**
    * Fires when a column header is clicked.
    *
    * @param {Number} idx - The index.
@@ -162,7 +184,10 @@ class SortableTable extends React.Component {
       }
       return React.createElement(
         'tr',
-        { className: `${BASE}-tbody-tr`, key: `tr-${rowIndex}` },
+        {
+          className: `${BASE}-tbody-tr`, key: `tr-${rowIndex}`,
+          onMouseEnter: this.onBodyRowMouseEnter.bind(this, rowIndex),
+          onMouseLeave: this.onBodyRowMouseLeave.bind(this, rowIndex) },
         cells
       );
     });
@@ -239,6 +264,16 @@ SortableTable.propTypes = {
    */
   removable: PropTypes.bool,
   /**
+   * Fires when the user's mouse cursor hovers over a <tr>.
+   * @type {Function}
+   */
+  onBodyRowMouseEnter: PropTypes.func,
+  /**
+   * Fires when the user's mouse cursor stops hovering over a <tr>.
+   * @type {Function}
+   */
+  onBodyRowMouseLeave: PropTypes.func,
+  /**
    * callback when user clicks on a sortable column header, function signature
    * is callback(columnName, sortOrder), e.g. `Size`, `asc`. These two
    * values can be used directly with lodash's `_.sortByOrder()` function.
@@ -259,6 +294,8 @@ SortableTable.propTypes = {
 };
 
 SortableTable.defaultProps = {
+  onBodyRowMouseEnter: () => {},
+  onBodyRowMouseLeave: () => {},
   theme: 'light',
   rows: [],
   sortable: true,

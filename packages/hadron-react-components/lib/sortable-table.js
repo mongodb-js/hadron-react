@@ -108,7 +108,7 @@ class SortableTable extends React.Component {
    * @returns {React.Component} The rows.
    */
   renderRows() {
-    return map(this.props.rows, (row, r) => {
+    return map(this.props.rows, (row, rowIndex) => {
       // allow both objects and arrays as rows. if object, convert to array
       // in sort order of column names (column names must match exactly).
       if (isPlainObject(row)) {
@@ -127,15 +127,15 @@ class SortableTable extends React.Component {
       } else if (row.length > this.props.columns.length) {
         row = row.slice(0, this.props.columns.length);
       }
-      const cells = map(row, (cell, c) => {
+      const cells = map(row, (cell, columnIndex) => {
         const title = isString(cell) ? cell : get(cell, 'props.children', '');
         return React.createElement(
           'td',
           {
             className: `${BASE}-td`,
-            'data-test-id': `${BASE}-column-${c}`,
+            'data-test-id': `${BASE}-column-${columnIndex}`,
             title: title,
-            key: `td-${c}` },
+            key: `td-${columnIndex}` },
           cell
         );
       });
@@ -155,14 +155,14 @@ class SortableTable extends React.Component {
             {
               className: `${BASE}-trash-button`,
               bsSize: 'sm',
-              onClick: this.onRowDeleteButtonClicked.bind(this, r, valueStr) },
+              onClick: this.onRowDeleteButtonClicked.bind(this, rowIndex, valueStr) },
             React.createElement(FontAwesome, { className: `${BASE}-trash-icon`, name: 'trash-o' })
           )
         ));
       }
       return React.createElement(
         'tr',
-        { className: `${BASE}-tbody-tr`, key: `tr-${r}` },
+        { className: `${BASE}-tbody-tr`, key: `tr-${rowIndex}` },
         cells
       );
     });

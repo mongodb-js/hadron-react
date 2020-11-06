@@ -1,4 +1,5 @@
 # hadron-react [![][travis_img]][travis_url] [![][lerna_img]][lerna_url]
+
 > Hadron React Components
 
 ## Packages
@@ -50,7 +51,7 @@ npm run check
 After merging a PR you can run this from master:
 
 ```shell
-lerna publish
+npm run release
 ```
 
 Lerna will take care of everything, bumping the version of the packages chaged from the last release.
